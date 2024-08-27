@@ -15,6 +15,8 @@ import {
   RESET_NOTE_CREATE,
 } from "../constants/notesConstants";
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 export const listNotes = () => async (dispatch, getState) => {
   try {
     dispatch({
@@ -28,7 +30,7 @@ export const listNotes = () => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.get(`http://localhost:5000/api/notes`, config);
+    const { data } = await axios.get(`${API_URL}/api/notes`, config);
 
     dispatch({
       type: NOTE_LIST_SUCCESS,
@@ -62,7 +64,7 @@ export const createNote =
       };
 
       const { data } = await axios.post(
-        `http://localhost:5000/api/notes/create`,
+        `${API_URL}/api/notes/create`,
         { title, content, category },
         config
       );
@@ -83,7 +85,7 @@ export const createNote =
   };
 
 export const resetNoteCreate = () => ({
-  type: "RESET_NOTE_CREATE",
+  type: RESET_NOTE_CREATE,
 });
 
 export const updateNote =
@@ -103,7 +105,7 @@ export const updateNote =
       };
 
       const { data } = await axios.put(
-        `http://localhost:5000/api/notes/${id}`,
+        `${API_URL}/api/notes/${id}`,
         { title, content, category },
         config
       );
@@ -137,7 +139,7 @@ export const deleteNote = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`http://localhost:5000/api/notes/${id}`, config);
+    await axios.delete(`${API_URL}/api/notes/${id}`, config);
 
     dispatch({ type: NOTE_DELETE_SUCCESS });
   } catch (error) {
